@@ -1,4 +1,4 @@
-#Character AI text Injector!
+##Character AI text Injector!
 
 Install at here:
 https://greasyfork.org/en/scripts/467020-text-injector
