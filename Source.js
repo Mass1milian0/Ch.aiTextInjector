@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name        text injector
 // @namespace   Violentmonkey Scripts
-// @match       https://beta.character.ai/chat
+// @match       https://beta.character.ai/*
 // @grant       none
-// @version     1.01
+// @version     1.02
 // @author      -
 // @description 24/5/2023, 19:07:21
 // ==/UserScript==
