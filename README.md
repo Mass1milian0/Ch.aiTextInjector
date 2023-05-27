@@ -1,7 +1,7 @@
 # Character AI text Injector!
 
 Install at here:
-https://greasyfork.org/en/scripts/467020-text-injector
+[https://greasyfork.org/en/scripts/467020-text-injector](https://greasyfork.org/en/scripts/467254-text-injector)
 
 inject text directly into your chats, useful for creating permanent memories, or just being wierd with the ai
 
