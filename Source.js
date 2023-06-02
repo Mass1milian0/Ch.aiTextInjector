@@ -1,9 +1,9 @@
 // ==UserScript==
-// @name        Character Ai Utils
+// @name        text injector
 // @namespace   Violentmonkey Scripts
 // @match       https://beta.character.ai/*
 // @grant       none
-// @version     1.1
+// @version     1.20
 // @author      -
 // @description 24/5/2023, 19:07:21
 // @license MIT
@@ -400,9 +400,262 @@ function createResponsePreviewWindow() {
     return { displayResponsePreviewStatusBar, responsePreviewSetResponseFinished, responsePreviewDivTextarea }
 }
 
+function createColorPickerWindow() {
+    let colorPickerDiv = document.createElement("div")
+    colorPickerDiv.style.position = "fixed"
+    colorPickerDiv.style.top = "0px"
+    colorPickerDiv.style.left = "0px"
+    colorPickerDiv.style.width = "235px"
+    colorPickerDiv.style.height = "200px"
+    colorPickerDiv.style.backgroundColor = "white"
+    colorPickerDiv.style.border = "1px solid black"
+    colorPickerDiv.style.zIndex
+    colorPickerDiv.style.resize = "both"
+    colorPickerDiv.style.overflow = "auto"
+    colorPickerDiv.style.display = "none"
+    colorPickerDiv.style.padding = "5px"
+    colorPickerDiv.style.fontFamily = "monospace"
+    colorPickerDiv.style.fontSize = "12px"
+    colorPickerDiv.style.userSelect = "none"
+    colorPickerDiv.style.cursor = "move"
+    colorPickerDiv.style.boxShadow = "0px 0px 10px 0px rgba(0,0,0,0.75)"
+    colorPickerDiv.style.borderRadius = "5px"
+    colorPickerDiv.style.transition = "height 0.2s ease-in-out"
+    colorPickerDiv.style.zIndex = 213098123
+
+    let colorPickerDivHeader = document.createElement("div")
+    colorPickerDivHeader.style.width = "100%"
+    colorPickerDivHeader.style.height = "20px"
+    colorPickerDivHeader.style.backgroundColor = "lightgray"
+    colorPickerDivHeader.style.borderBottom = "1px solid black"
+    colorPickerDivHeader.style.borderTopLeftRadius = "5px"
+    colorPickerDivHeader.style.borderTopRightRadius = "5px"
+    colorPickerDivHeader.style.userSelect = "none"
+    colorPickerDivHeader.style.cursor = "move"
+    colorPickerDivHeader.style.display = "flex"
+    colorPickerDivHeader.style.alignItems = "center"
+    colorPickerDivHeader.style.justifyContent = "center"
+
+    let colorPickerDivHeaderText = document.createElement("span")
+    colorPickerDivHeaderText.innerText = "Color Picker"
+    colorPickerDivHeaderText.style.fontWeight = "bold"
+    colorPickerDivHeaderText.style.fontSize = "14px"
+
+    let colorPickerDivCloseButton = document.createElement("button")
+    colorPickerDivCloseButton.innerText = "X"
+    colorPickerDivCloseButton.style.position = "absolute"
+    colorPickerDivCloseButton.style.right = "5px"
+    colorPickerDivCloseButton.style.top = "5px"
+    colorPickerDivCloseButton.style.width = "20px"
+    colorPickerDivCloseButton.style.height = "20px"
+    colorPickerDivCloseButton.style.backgroundColor = "transparent"
+    colorPickerDivCloseButton.style.border = "none"
+    colorPickerDivCloseButton.style.outline = "none"
+    colorPickerDivCloseButton.style.cursor = "pointer"
+    colorPickerDivCloseButton.style.userSelect = "none"
+    colorPickerDivCloseButton.style.fontWeight = "bold"
+    colorPickerDivCloseButton.style.fontSize = "14px"
+    colorPickerDivCloseButton.style.transition = "height 0.2s ease-in-out"
+
+    let colorPickerDivMinimizeButton = document.createElement("button")
+    colorPickerDivMinimizeButton.innerText = "-"
+    colorPickerDivMinimizeButton.style.position = "absolute"
+    colorPickerDivMinimizeButton.style.right = "30px"
+    colorPickerDivMinimizeButton.style.top = "5px"
+    colorPickerDivMinimizeButton.style.width = "20px"
+    colorPickerDivMinimizeButton.style.height = "20px"
+    colorPickerDivMinimizeButton.style.backgroundColor = "transparent"
+    colorPickerDivMinimizeButton.style.border = "none"
+    colorPickerDivMinimizeButton.style.outline = "none"
+    colorPickerDivMinimizeButton.style.cursor = "pointer"
+    colorPickerDivMinimizeButton.style.userSelect = "none"
+    colorPickerDivMinimizeButton.style.fontWeight = "bold"
+    colorPickerDivMinimizeButton.style.fontSize = "14px"
+    colorPickerDivMinimizeButton.style.transition = "height 0.2s ease-in-out"
+
+    let colorPickerDivContent = document.createElement("div")
+    colorPickerDivContent.style.width = "100%"
+    colorPickerDivContent.style.height = "85%"
+    colorPickerDivContent.style.padding = "5px"
+    colorPickerDivContent.style.boxSizing = "border-box"
+
+    //pickers are to be shown one under the other, with labels on top, little margin between them
+    let colorPickerDivContainer = document.createElement("div")
+    colorPickerDivContainer.style.width = "100%"
+    colorPickerDivContainer.style.height = "100%"
+    colorPickerDivContainer.style.display = "flex"
+    colorPickerDivContainer.style.flexDirection = "column"
+    colorPickerDivContainer.style.alignItems = "center"
+    colorPickerDivContainer.style.justifyContent = "center"
+    
+    //pickers are color pickers input type color, with a label on top
+    let colorPickerDivColorPickerUser = document.createElement("input")
+    colorPickerDivColorPickerUser.type = "color"
+    colorPickerDivColorPickerUser.style.width = "100%"
+    colorPickerDivColorPickerUser.style.height = "100%"
+    colorPickerDivColorPickerUser.style.margin = "5px"
+    colorPickerDivColorPickerUser.style.boxSizing = "border-box"
+    colorPickerDivColorPickerUser.style.border = "1px solid black"
+    colorPickerDivColorPickerUser.style.borderRadius = "5px"
+    colorPickerDivColorPickerUser.style.outline = "none"
+    colorPickerDivColorPickerUser.style.cursor = "pointer"
+    colorPickerDivColorPickerUser.style.transition = "height 0.2s ease-in-out"
+
+    //to be show on top of the picker
+    let colorPickerDivColorPickerLaberUser = document.createElement("span")
+    colorPickerDivColorPickerLaberUser.innerText = "User Color"
+    colorPickerDivColorPickerLaberUser.style.fontWeight = "bold"
+    colorPickerDivColorPickerLaberUser.style.fontSize = "14px"
+
+    let colorPickerDivColorPickerBot = document.createElement("input")
+    colorPickerDivColorPickerBot.type = "color"
+    colorPickerDivColorPickerBot.style.width = "100%"
+    colorPickerDivColorPickerBot.style.height = "100%"
+    colorPickerDivColorPickerBot.style.margin = "5px"
+    colorPickerDivColorPickerBot.style.boxSizing = "border-box"
+    colorPickerDivColorPickerBot.style.border = "1px solid black"
+    colorPickerDivColorPickerBot.style.borderRadius = "5px"
+    colorPickerDivColorPickerBot.style.outline = "none"
+    colorPickerDivColorPickerBot.style.cursor = "pointer"
+    colorPickerDivColorPickerBot.style.transition = "height 0.2s ease-in-out"
+
+    //to be show on top of the picker
+    let colorPickerDivColorPickerLaberBot = document.createElement("span")
+    colorPickerDivColorPickerLaberBot.innerText = "Bot Color"
+    colorPickerDivColorPickerLaberBot.style.fontWeight = "bold"
+    colorPickerDivColorPickerLaberBot.style.fontSize = "14px"
+
+
+    colorPickerDivHeader.appendChild(colorPickerDivHeaderText)
+    colorPickerDivHeader.appendChild(colorPickerDivCloseButton)
+    colorPickerDivHeader.appendChild(colorPickerDivMinimizeButton)
+    colorPickerDivContent.appendChild(colorPickerDivContainer)
+    colorPickerDivContainer.appendChild(colorPickerDivColorPickerLaberUser)
+    colorPickerDivContainer.appendChild(colorPickerDivColorPickerUser)
+    colorPickerDivContainer.appendChild(colorPickerDivColorPickerLaberBot)
+    colorPickerDivContainer.appendChild(colorPickerDivColorPickerBot)
+    colorPickerDiv.appendChild(colorPickerDivHeader)
+    colorPickerDiv.appendChild(colorPickerDivContent)
+    document.body.appendChild(colorPickerDiv)
+
+    //create a buttton in the top left corner of the screen to open the custom prepend div, with a little animation and margin
+    let colorPickerDivOpenButton = document.createElement("button")
+    colorPickerDivOpenButton.innerText = "Color Picker"
+    colorPickerDivOpenButton.style.position = "fixed"
+    colorPickerDivOpenButton.style.top = "65px"
+    colorPickerDivOpenButton.style.left = "5px"
+    colorPickerDivOpenButton.style.border = "1px solid black"
+    colorPickerDivOpenButton.style.outline = "none"
+    colorPickerDivOpenButton.style.cursor = "pointer"
+    colorPickerDivOpenButton.style.userSelect = "none"
+    colorPickerDivOpenButton.style.fontWeight = "bold"
+    colorPickerDivOpenButton.style.fontSize = "12px"
+    colorPickerDivOpenButton.style.transition = "backgroundColor 0.2s ease-in-out"
+    colorPickerDivOpenButton.style.zIndex = 213098123
+
+    document.body.appendChild(colorPickerDivOpenButton)
+
+    colorPickerDivOpenButton.addEventListener("click", function () {
+        if (colorPickerDiv.style.display == "none") {
+            colorPickerDiv.style.display = "block"
+            colorPickerDivOpenButton.style.backgroundColor = "lightgray"
+            colorPickerDiv.style.top = "120px"
+        } else {
+            colorPickerDiv.style.display = "none"
+            colorPickerDivOpenButton.style.backgroundColor = "transparent"
+        }
+    })
+
+    colorPickerDivCloseButton.addEventListener("click", function () {
+        colorPickerDiv.style.display = "none"
+        colorPickerDivOpenButton.style.backgroundColor = "transparent"
+    })
+
+    colorPickerDivMinimizeButton.addEventListener("click", function () {
+        if (colorPickerDivMinimizeButton.innerText == "-") {
+            colorPickerDiv.style.height = "30px"
+            colorPickerDivMinimizeButton.innerText = "+"
+            //hide the color Picker Div Container if it is minimized
+            colorPickerDivContainer.style.display = "none"
+
+        } else {
+            colorPickerDiv.style.height = "200px"
+            colorPickerDivMinimizeButton.innerText = "-"
+            //show the color Picker Div Container if it is maximized
+            colorPickerDivContainer.style.display = "flex"
+        }
+    })
+
+    //remove transition while being resized
+    colorPickerDiv.addEventListener("mousedown", function () {
+        colorPickerDiv.style.transition = "none"
+    })
+    colorPickerDiv.addEventListener("mouseup", function () {
+        colorPickerDiv.style.transition = "height 0.2s ease-in-out"
+    })
+
+    colorPickerDivHeader.addEventListener("mousedown", function (e) {
+        e.preventDefault()
+        let x = e.clientX
+        let y = e.clientY
+        let top = colorPickerDiv.offsetTop
+        let left = colorPickerDiv.offsetLeft
+        console.log("mousedown triggered")
+        document.addEventListener("mousemove", drag)
+        document.addEventListener("mouseup", stopDrag)
+        function drag(e) {
+            let newX = e.clientX
+            let newY = e.clientY
+            let newTop = newY - (y - top)
+            let newLeft = newX - (x - left)
+            colorPickerDiv.style.top = newTop + "px"
+            colorPickerDiv.style.left = newLeft + "px"
+        }
+        function stopDrag() {
+            document.removeEventListener("mousemove", drag)
+            document.removeEventListener("mouseup", stopDrag)
+        }
+    })
+
+    colorPickerDivColorPickerUser.addEventListener("input", function () {
+        document.querySelectorAll(".user-msg").forEach(function (msg) {
+            msg.style.color = colorPickerDivColorPickerUser.value
+            //dark reader fix
+            msg.style["--darkreader-inline-color"] = colorPickerDivColorPickerUser.value
+        })
+    })
+    colorPickerDivColorPickerBot.addEventListener("input", function () {
+        document.querySelectorAll(".char-msg").forEach(function (msg) {
+            msg.style.color = colorPickerDivColorPickerBot.value
+            //dark reader fix
+            msg.style["--darkreader-inline-color"] = colorPickerDivColorPickerBot.value
+        })
+    })
+
+    let updateColors = function () {
+        let currentUserColor = colorPickerDivColorPickerUser.value
+        let currentBotColor = colorPickerDivColorPickerBot.value
+
+        document.querySelectorAll(".user-msg").forEach(function (msg) {
+            msg.style.color = currentUserColor
+            //dark reader fix
+            msg.style["--darkreader-inline-color"] = currentUserColor
+        })
+        document.querySelectorAll(".char-msg").forEach(function (msg) {
+            msg.style.color = currentBotColor
+            //dark reader fix
+            msg.style["--darkreader-inline-color"] = currentBotColor
+        })
+    }
+
+    return updateColors
+}
+
 createPrependWindow()
 
 let { displayResponsePreviewStatusBar, responsePreviewSetResponseFinished, responsePreviewDivTextarea } = createResponsePreviewWindow()
+
+let updateColors = createColorPickerWindow()
 
 function processResponse(response) {
     if (response.body) {
@@ -416,6 +669,7 @@ function processResponse(response) {
 
         worker.onmessage = event => {
             const { data } = event;
+            updateColors()
             responsePreviewDivTextarea.value = data.text;
         };
 
@@ -425,10 +679,12 @@ function processResponse(response) {
                     // Terminate the web worker after sending the last message
                     worker.onmessage = event => {
                         const { data } = event;
+                        updateColors()
                         responsePreviewDivTextarea.value = data.text;
                         if (data.is_final_chunk === true) {
                             responsePreviewSetResponseFinished(true)
                             worker.terminate();
+                            updateColors()
                             //asyncronously wait 3 seconds and then hide the response preview div
                             setTimeout(function () {
                                 displayResponsePreviewStatusBar(false)
