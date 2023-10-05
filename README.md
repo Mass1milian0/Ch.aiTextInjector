@@ -1,3 +1,9 @@
+# EOL
+This project is unfortunately dead, character.ai switched to websocket, and they implemented it into a IIFE which makes it impossible do
+access their socket reliably to modify it
+
+the only way to revive this would be directly manipulating outgoing packets by self MITM 
+
 # Character AI text Injector!
 
 Install at here:
